@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.train_food.LoginFragment"
+        android:name="uk.ac.tees.w9544151.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/adminHomeFragment"
-        android:name="com.example.train_food.admin.AdminHomeFragment"
+        android:name="uk.ac.tees.w9544151.admin.AdminHomeFragment"
         android:label="fragment_admin_home"
         tools:layout="@layout/fragment_admin_home" >
         <action
@@ -37,27 +37,27 @@
     </fragment>
     <fragment
         android:id="@+id/addBoyFragment"
-        android:name="com.example.train_food.admin.AddBoyFragment"
+        android:name="uk.ac.tees.w9544151.admin.AddBoyFragment"
         android:label="fragment_add_boy"
         tools:layout="@layout/fragment_add_boy" />
     <fragment
         android:id="@+id/addFoodFragment"
-        android:name="com.example.train_food.admin.AddFoodFragment"
+        android:name="uk.ac.tees.w9544151.admin.AddFoodFragment"
         android:label="fragment_add_food"
         tools:layout="@layout/fragment_add_food" />
     <fragment
         android:id="@+id/addStopFragment"
-        android:name="com.example.train_food.admin.AddStopFragment"
+        android:name="uk.ac.tees.w9544151.admin.AddStopFragment"
         android:label="fragment_add_stop"
         tools:layout="@layout/fragment_add_stop" />
     <fragment
         android:id="@+id/DBoyListFragment"
-        android:name="com.example.train_food.admin.DBoyListFragment"
+        android:name="uk.ac.tees.w9544151.admin.DBoyListFragment"
         android:label="fragment_d_boy_list"
         tools:layout="@layout/fragment_d_boy_list" />
     <fragment
         android:id="@+id/trainFragment"
-        android:name="com.example.train_food.admin.TrainFragment"
+        android:name="uk.ac.tees.w9544151.admin.TrainFragment"
         android:label="fragment_train"
         tools:layout="@layout/fragment_train" >
         <action
@@ -72,17 +72,17 @@
     </fragment>
     <fragment
         android:id="@+id/registerTrainFragment"
-        android:name="com.example.train_food.admin.RegisterTrainFragment"
+        android:name="uk.ac.tees.w9544151.admin.RegisterTrainFragment"
         android:label="fragment_register_train"
         tools:layout="@layout/fragment_register_train" />
     <fragment
         android:id="@+id/trainListFragment"
-        android:name="com.example.train_food.admin.TrainListFragment"
+        android:name="uk.ac.tees.w9544151.admin.TrainListFragment"
         android:label="fragment_train_list"
         tools:layout="@layout/fragment_train_list" />
     <fragment
         android:id="@+id/cafeFragment"
-        android:name="com.example.train_food.admin.CafeFragment"
+        android:name="uk.ac.tees.w9544151.admin.CafeFragment"
         android:label="fragment_cafe"
         tools:layout="@layout/fragment_cafe" >
         <action
@@ -94,12 +94,12 @@
     </fragment>
     <fragment
         android:id="@+id/foodListFragment"
-        android:name="com.example.train_food.admin.FoodListFragment"
+        android:name="uk.ac.tees.w9544151.admin.FoodListFragment"
         android:label="fragment_food_list"
         tools:layout="@layout/fragment_food_list" />
     <fragment
         android:id="@+id/DBoyFragment"
-        android:name="com.example.train_food.admin.DBoyFragment"
+        android:name="uk.ac.tees.w9544151.admin.DBoyFragment"
         android:label="fragment_d_boy"
         tools:layout="@layout/fragment_d_boy" >
         <action
@@ -111,7 +111,7 @@
     </fragment>
     <fragment
         android:id="@+id/DBoyHomeFragment"
-        android:name="com.example.train_food.DBoy.DBoyHomeFragment"
+        android:name="uk.ac.tees.w9544151.DBoy.DBoyHomeFragment"
         android:label="fragment_d_boy_home"
         tools:layout="@layout/fragment_d_boy_home" >
         <action
@@ -123,38 +123,38 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.example.train_food.DBoy.EditProfileFragment"
+        android:name="uk.ac.tees.w9544151.DBoy.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/orderListFragment"
-        android:name="com.example.train_food.DBoy.OrderListFragment"
+        android:name="uk.ac.tees.w9544151.DBoy.OrderListFragment"
         android:label="fragment_order_list"
         tools:layout="@layout/fragment_order_list" />
     <fragment
         android:id="@+id/feedbackFragment"
-        android:name="com.example.train_food.Passenger.FeedbackFragment"
+        android:name="uk.ac.tees.w9544151.Passenger.FeedbackFragment"
         android:label="fragment_feedback"
         tools:layout="@layout/fragment_feedback" />
     <fragment
         android:id="@+id/feedbackListFragment"
-        android:name="com.example.train_food.admin.FeedbackListFragment"
+        android:name="uk.ac.tees.w9544151.admin.FeedbackListFragment"
         android:label="fragment_feedback_list"
         tools:layout="@layout/fragment_feedback_list" />
     <fragment
         android:id="@+id/foodHomeFragment2"
-        android:name="com.example.train_food.Passenger.FoodHomeFragment"
+        android:name="uk.ac.tees.w9544151.Passenger.FoodHomeFragment"
         android:label="fragment_food_home"
         tools:layout="@layout/fragment_food_home"
         />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.train_food.Passenger.HomeFragment"
+        android:name="uk.ac.tees.w9544151.Passenger.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.train_food.SplashFragment"
+        android:name="uk.ac.tees.w9544151.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
