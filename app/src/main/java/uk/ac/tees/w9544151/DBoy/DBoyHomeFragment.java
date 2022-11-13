@@ -1,66 +1,100 @@
 package uk.ac.tees.w9544151.DBoy;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import uk.ac.tees.w9544151.Adapters.AdapterCallback;
+import uk.ac.tees.w9544151.Adapters.OrdersAdapter;
+import uk.ac.tees.w9544151.Models.OrderModel;
 import uk.ac.tees.w9544151.R;
+import uk.ac.tees.w9544151.databinding.FragmentDBoyBinding;
+import uk.ac.tees.w9544151.databinding.FragmentDBoyHomeBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DBoyHomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DBoyHomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DBoyHomeFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DBoyHomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DBoyHomeFragment newInstance(String param1, String param2) {
-        DBoyHomeFragment fragment = new DBoyHomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
+public class DBoyHomeFragment extends Fragment implements AdapterCallback {
+FragmentDBoyHomeBinding binding;
+    OrdersAdapter adapter=new OrdersAdapter(this);
+    List<OrderModel> orderList = new ArrayList();
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        requireActivity().getOnBackPressedDispatcher().addCallback( this,new OnBackPressedCallback(true){
+            @Override
+            public void handleOnBackPressed() {
+                Toast.makeText(requireContext(), "please logout", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_d_boy_home, container, false);
+        binding=FragmentDBoyHomeBinding.inflate(getLayoutInflater(),container,false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        for(int i=0;i<10;i++) {
+            orderList.add(new OrderModel("Chicken Fry", "200", "2","Nithin","9747062356","16649/s6/45","400",R.drawable.foodmenu2));
+        }
+        binding.rvdBoyOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter.ordersList=orderList;
+        binding.rvdBoyOrders.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        binding.editBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_DBoyHomeFragment_to_editProfileFragment);
+            }
+        });
+        binding.ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertbox=new AlertDialog.Builder(requireContext());
+                alertbox.setMessage("Do you really wants to logout from this app?");
+                alertbox.setTitle("Logout!!");
+
+                alertbox.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Navigation.findNavController(getView()).navigateUp();
+
+                    }
+                });
+                alertbox.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alertbox.show();
+            }
+        });
+    }
+
+    @Override
+    public void onMethodCallback() {
+
     }
 }
