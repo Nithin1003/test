@@ -37,6 +37,7 @@
         android:text="Add Train"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:id="@+id/addtrain"
         app:layout_constraintBottom_toBottomOf="@+id/addSymbol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guideline"
