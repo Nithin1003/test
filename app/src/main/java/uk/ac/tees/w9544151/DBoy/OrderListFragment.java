@@ -50,7 +50,7 @@ public class OrderListFragment extends Fragment implements AdapterCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         for(int i=0;i<10;i++) {
-            orderList.add(new OrderModel("Chicken Fry", "200", "2","Nithin","9747062356","16649/s6/45","400",R.drawable.foodmenu2));
+            orderList.add(new OrderModel("01","Chicken Fry", "200", "2","Nithin","9747062356","16350/s6/45","400","wdw"));
         }
         binding.rvOrders.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter.ordersList=orderList;

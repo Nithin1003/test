@@ -41,7 +41,7 @@ FragmentHomeBinding binding;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         for(int i=0;i<10;i++) {
-            foodList.add(new Foodmodel("Chicken Fry", "200", R.drawable.foodmenu2));
+            foodList.add(new Foodmodel("1","Chicken Fry", "200", "R.drawable.foodmenu2"));
         }
         binding.rvFoodMenu.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter.fooodList=foodList;
