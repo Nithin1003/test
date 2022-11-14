@@ -30,6 +30,7 @@
         android:layout_weight="1"
         android:background="@color/tint_white"
         android:padding="4dp"
+        android:src="@drawable/foodmenu2"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
