@@ -34,6 +34,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_account"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -48,6 +49,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/amaranth"
             android:maxLines="1"
+            android:text="Manu Mon"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constrainedWidth="true"
@@ -96,9 +98,12 @@
 
     <ImageView
         android:id="@+id/ivLogout"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:scaleType="centerCrop"
+        android:layout_marginEnd="30dp"
+        android:elevation="1dp"
+        app:layout_constraintStart_toEndOf="@+id/profileBox"
         app:layout_constraintBottom_toBottomOf="@+id/profileBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/profileBox"
@@ -113,6 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appBar">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvdBoyOrders"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

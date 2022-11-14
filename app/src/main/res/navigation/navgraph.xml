@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_loginFragment_to_DBoyHomeFragment"
             app:destination="@id/DBoyHomeFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_foodHomeFragment2"
+            app:destination="@id/foodHomeFragment2" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
     <fragment
         android:id="@+id/adminHomeFragment"
@@ -132,11 +138,6 @@
         android:label="fragment_order_list"
         tools:layout="@layout/fragment_order_list" />
     <fragment
-        android:id="@+id/feedbackFragment"
-        android:name="uk.ac.tees.w9544151.Passenger.FeedbackFragment"
-        android:label="fragment_feedback"
-        tools:layout="@layout/fragment_feedback" />
-    <fragment
         android:id="@+id/feedbackListFragment"
         android:name="uk.ac.tees.w9544151.admin.FeedbackListFragment"
         android:label="fragment_feedback_list"
@@ -146,12 +147,26 @@
         android:name="uk.ac.tees.w9544151.Passenger.FoodHomeFragment"
         android:label="fragment_food_home"
         tools:layout="@layout/fragment_food_home"
-        />
+        >
+        <action
+            android:id="@+id/action_foodHomeFragment2_to_orderListFragment2"
+            app:destination="@id/orderListFragment2" />
+        <action
+            android:id="@+id/action_foodHomeFragment2_to_feedbackFragments"
+            app:destination="@id/feedbackFragments" />
+        <action
+            android:id="@+id/action_foodHomeFragment2_to_cartListFragment"
+            app:destination="@id/cartListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="uk.ac.tees.w9544151.Passenger.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="uk.ac.tees.w9544151.SplashFragment"
@@ -161,5 +176,28 @@
             android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
-
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="uk.ac.tees.w9544151.Passenger.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderListFragment2"
+        android:name="uk.ac.tees.w9544151.DBoy.OrderListFragment"
+        android:label="fragment_order_list"
+        tools:layout="@layout/fragment_order_list" />
+    <fragment
+        android:id="@+id/feedbackFragments"
+        android:name="uk.ac.tees.w9544151.Passenger.FeedbackFragment"
+        android:label="fragment_feedback"
+        tools:layout="@layout/fragment_feedback" />
+    <fragment
+        android:id="@+id/cartListFragment"
+        android:name="uk.ac.tees.w9544151.Passenger.CartListFragment"
+        android:label="fragment_cart_list"
+        tools:layout="@layout/fragment_cart_list" />
 </navigation>
