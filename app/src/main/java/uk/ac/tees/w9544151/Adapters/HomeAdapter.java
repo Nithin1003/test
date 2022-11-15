@@ -42,7 +42,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
         Foodmodel dm = fooodList.get(position);
         holder.tvfoodname.setText(dm.getFoodName());
         holder.tvprice.setText(dm.getFoodPrice());
-        holder.ivphoto.setImageResource(dm.getFoodImage());
+       // holder.ivphoto.setImageResource(dm.getFoodImage());
         holder.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

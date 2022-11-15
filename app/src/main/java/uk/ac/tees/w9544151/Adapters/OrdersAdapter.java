@@ -42,14 +42,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.MyviewHold
         OrderModel dm = ordersList.get(position);
         holder.foodname.setText(dm.getItemName());
         holder.foodprice.setText(dm.getItemPrice());
-        holder.foodImage.setImageResource(dm.getItemImage());
+        //holder.foodImage.setImageResource(dm.getItemImage());
         holder.foodtotal.setText(dm.getTotalAmount());
         holder.foodqty.setText(dm.getItemQty());
         holder.username.setText(dm.getUsername());
         holder.mobile.setText(dm.getMobile());
-        holder.seatinfo.setText(dm.getSeatno());
+        holder.seatinfo.setText(dm.getSeatNumber());
 
-        holder.foodImage.setImageResource(dm.getItemImage());
+      //  holder.foodImage.setImageResource(dm.getItemImage());
         holder.dboyImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

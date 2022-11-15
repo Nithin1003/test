@@ -199,5 +199,14 @@
         android:id="@+id/cartListFragment"
         android:name="uk.ac.tees.w9544151.Passenger.CartListFragment"
         android:label="fragment_cart_list"
-        tools:layout="@layout/fragment_cart_list" />
+        tools:layout="@layout/fragment_cart_list" >
+        <action
+            android:id="@+id/action_cartListFragment_to_placeOrderFragment"
+            app:destination="@id/placeOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/placeOrderFragment"
+        android:name="uk.ac.tees.w9544151.Passenger.PlaceOrderFragment"
+        android:label="fragment_place_order"
+        tools:layout="@layout/fragment_place_order" />
 </navigation>

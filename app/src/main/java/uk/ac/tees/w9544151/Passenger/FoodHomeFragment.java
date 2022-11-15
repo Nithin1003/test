@@ -40,7 +40,7 @@ public class FoodHomeFragment extends Fragment implements AdapterCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         for(int i=0;i<10;i++) {
-            foodList.add(new Foodmodel("Chicken Biriyani", "260", R.drawable.foodmenu2));
+            foodList.add(new Foodmodel("i","Chicken Biriyani", "260", "R.drawable.foodmenu2"));
         }
         binding.rvFoodMenu.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter.fooodList=foodList;

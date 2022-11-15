@@ -1,12 +1,21 @@
 package uk.ac.tees.w9544151.Models;
 
 public class Foodmodel {
-    String foodName,foodPrice;
-int foodImage;
-    public Foodmodel(String foodName, String foodPrice, int foodImage) {
+    String foodId,foodName,foodPrice,foodImage;
+
+    public Foodmodel(String foodId, String foodName, String foodPrice, String foodImage) {
+        this.foodId = foodId;
         this.foodName = foodName;
         this.foodPrice = foodPrice;
         this.foodImage = foodImage;
+    }
+
+    public String getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(String foodId) {
+        this.foodId = foodId;
     }
 
     public String getFoodName() {
@@ -25,11 +34,11 @@ int foodImage;
         this.foodPrice = foodPrice;
     }
 
-    public int getFoodImage() {
+    public String getFoodImage() {
         return foodImage;
     }
 
-    public void setFoodImage(int foodImage) {
+    public void setFoodImage(String foodImage) {
         this.foodImage = foodImage;
     }
 }
