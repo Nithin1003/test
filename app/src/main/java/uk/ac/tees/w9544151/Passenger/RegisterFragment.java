@@ -8,9 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Random;
 
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentRegisterBinding;
@@ -44,6 +47,9 @@ public class RegisterFragment extends Fragment {
         binding.btnAddUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Random random = new Random();
+                int number = random.nextInt(100000);
+                Log.d("@@", "User-"+number+"");
                 if (binding.etName.getText().toString().isEmpty())
                     binding.etName.setError("Enter your name");
                 else if (binding.etMobile.getText().toString().isEmpty())
@@ -53,6 +59,8 @@ public class RegisterFragment extends Fragment {
                 else if (binding.etPassword.getText().toString().isEmpty())
                     binding.etPassword.setError("Enter ypur passwprd");
                 else {
+                    //set the long seed value using Random constructor
+
                     Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
                 }
             }

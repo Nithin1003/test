@@ -21,6 +21,7 @@ import java.util.List;
 
 import uk.ac.tees.w9544151.Adapters.AdapterCallback;
 import uk.ac.tees.w9544151.Adapters.OrdersAdapter;
+import uk.ac.tees.w9544151.Models.GPSTracker;
 import uk.ac.tees.w9544151.Models.OrderModel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentDBoyBinding;
@@ -30,6 +31,7 @@ import uk.ac.tees.w9544151.databinding.FragmentDBoyHomeBinding;
 public class DBoyHomeFragment extends Fragment implements AdapterCallback {
 FragmentDBoyHomeBinding binding;
     OrdersAdapter adapter=new OrdersAdapter(this);
+    GPSTracker gps=new GPSTracker(getContext());
     List<OrderModel> orderList = new ArrayList();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ FragmentDBoyHomeBinding binding;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Toast.makeText(getContext(),gps.getLatitude()+"\n"+gps.getLongitude(),Toast.LENGTH_SHORT).show();
         for(int i=0;i<10;i++) {
             orderList.add(new OrderModel(
                     "1","Chicken Fry", "200", "2","Nithin","9747062356","16649/s6/45","400","R.drawable.foodmenu2"));
