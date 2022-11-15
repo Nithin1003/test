@@ -52,9 +52,9 @@ public class DBoyListFragment extends Fragment implements AdapterCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        for(int i=0;i<10;i++) {
+        /*for(int i=0;i<10;i++) {
             boyList.add(new DBoyModel("B01","Rajashegar","9787890099","Kollam","nil"));
-        }
+        }*/
         binding.rvBoys.setLayoutManager(new GridLayoutManager(requireContext(),2));
         adapter.boyList=boyList;
         binding.rvBoys.setAdapter(adapter);

@@ -1,5 +1,8 @@
 package uk.ac.tees.w9544151.Adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import kotlin.Unit;
@@ -42,6 +46,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
         Foodmodel dm = fooodList.get(position);
         holder.tvfoodname.setText(dm.getFoodName());
         holder.tvprice.setText(dm.getFoodPrice());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] imageBytes = baos.toByteArray();
+        imageBytes = Base64.decode(dm.getFoodImage(), Base64.DEFAULT);
+        Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+        holder.ivphoto.setImageBitmap(decodedImage);
        // holder.ivphoto.setImageResource(dm.getFoodImage());
         holder.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override

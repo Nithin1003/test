@@ -119,6 +119,36 @@
         app:layout_constraintEnd_toEndOf="@+id/etBoyName"
         app:layout_constraintStart_toStartOf="@+id/etBoyName"
         app:layout_constraintTop_toBottomOf="@id/etStopName" />
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:background="@drawable/input_holder"
+        android:hint="User name "
+        android:paddingStart="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/etBoyName"
+        app:layout_constraintStart_toStartOf="@+id/etBoyName"
+        app:layout_constraintTop_toBottomOf="@id/etBoyMobile" />
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16sp"
+        android:gravity="center_vertical"
+        android:background="@drawable/input_holder"
+        android:hint="Password "
+        android:paddingStart="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/etBoyName"
+        app:layout_constraintStart_toStartOf="@+id/etBoyName"
+        app:layout_constraintTop_toBottomOf="@id/etUsername" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btnAddBoy"
@@ -133,7 +163,7 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBoyMobile" />
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -23,18 +24,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.UUID;
 
+import uk.ac.tees.w9544151.Models.Foodmodel;
+import uk.ac.tees.w9544151.Models.TrainModel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentAddFoodBinding;
 
 
 public class AddFoodFragment extends Fragment {
     String mediaPath = null;
+    FirebaseFirestore db;
 
     String encodedImage = "";
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -89,6 +102,13 @@ public class AddFoodFragment extends Fragment {
             }
         });
 
+        binding.btnAddFood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFoodToDatabase();
+            }
+        });
+
     }
 
     private void selectImage() {
@@ -137,6 +157,7 @@ public class AddFoodFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
+
                 onSelectFromGalleryResult(data);
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
@@ -188,7 +209,7 @@ public class AddFoodFragment extends Fragment {
 
         encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         binding.image.setImageBitmap(bmp);
-         Toast.makeText(getContext(), encodedImage+"", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), encodedImage + "", Toast.LENGTH_SHORT).show();
         //return encodedImage;
     }
 
@@ -219,5 +240,44 @@ public class AddFoodFragment extends Fragment {
 
     }
 
+    private void addFoodToDatabase() {
+        String id, foodName, price;
+        foodName = binding.etFoodName.getText().toString();
+        price = binding.etFoodPrice.getText().toString();
+        fireStoreDatabase:
+        FirebaseFirestore.getInstance();
+        Foodmodel obj = new Foodmodel("f01", foodName, price, encodedImage);
+        db = FirebaseFirestore.getInstance();
+        db.collection("Food_Menu").add(obj).
+                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        binding.etFoodPrice.getText().clear();
+                        binding.etFoodName.getText().clear();
+                        Snackbar.make(requireView(), "Food added Successfully", Snackbar.LENGTH_LONG).show();
+                    }
+                }).
+                addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
+    }
+
+    /*private void uploadImage(){
+        if(encodedImage != null){
+            StorageReference reference;
+            reference=storageReference.child("Food_Image/"+UUID.randomUUID().toString());
+            //ref = storageReference.child("food_Images/" + UUID.randomUUID().toString());
+            UploadTask uploadTask;
+            uploadTask = reference.putFile(Uri.parse(encodedImage));
+            Log.d("url", reference.toString());
+            //encodedstring= ref.toString()
+
+        }else{
+            Toast.makeText(getContext(), "Please Upload an Image", Toast.LENGTH_SHORT).show();
+        }
+    }*/
 }
