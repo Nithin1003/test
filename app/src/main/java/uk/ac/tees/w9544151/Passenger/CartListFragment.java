@@ -59,6 +59,14 @@ public class CartListFragment extends Fragment implements AdapterCallback {
         adapter.cartList=cartList;
         binding.rvCarts.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        binding.btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminHomeFragment);
+                Navigation.findNavController(view).navigate(R.id.action_cartListFragment_to_placeOrderFragment);
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class DBoyListFragment extends Fragment implements AdapterCallback {
         for(int i=0;i<10;i++) {
             boyList.add(new DBoyModel("B01","Rajashegar","9787890099","Kollam","nil"));
         }
-        binding.rvBoys.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.rvBoys.setLayoutManager(new GridLayoutManager(requireContext(),2));
         adapter.boyList=boyList;
         binding.rvBoys.setAdapter(adapter);
         adapter.notifyDataSetChanged();
