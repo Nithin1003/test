@@ -50,8 +50,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        sp = getActivity().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
-        editor = sp.edit();
+
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +78,8 @@ public class LoginFragment extends Fragment {
                     String password = binding.etPassword.getText().toString();
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     if (username.equals("admin") && password.equals("admin")) {
+                        sp = getContext().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+                        editor = sp.edit();
                         editor.putString("userType", "admin");
                         editor.commit();
                         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminHomeFragment);
@@ -96,6 +97,8 @@ public class LoginFragment extends Fragment {
                                                         Toast.makeText(requireContext(), "invalid  credentials", Toast.LENGTH_SHORT).show();
                                                 }
                                                 else {
+                                                    sp = getContext().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+                                                    editor = sp.edit();
                                                     Log.d("##", queryDocumentSnapshots.getDocuments().get(0).getString("type") + "");
                                                     editor.putString("userType", queryDocumentSnapshots.getDocuments().get(0).getString("type").toString());
                                                     editor.commit();

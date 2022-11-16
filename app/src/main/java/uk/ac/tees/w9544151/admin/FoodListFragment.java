@@ -1,5 +1,7 @@
 package uk.ac.tees.w9544151.admin;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -24,18 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.ac.tees.w9544151.Adapters.AdapterCallback;
-import uk.ac.tees.w9544151.Adapters.CartAdapter;
 import uk.ac.tees.w9544151.Adapters.HomeAdapter;
-import uk.ac.tees.w9544151.Models.CartModel;
 import uk.ac.tees.w9544151.Models.Foodmodel;
-import uk.ac.tees.w9544151.R;
-import uk.ac.tees.w9544151.databinding.FragmentCartListBinding;
 import uk.ac.tees.w9544151.databinding.FragmentFoodListBinding;
 
 
 public class FoodListFragment extends Fragment implements AdapterCallback {
     FragmentFoodListBinding binding;
-    HomeAdapter adapter=new HomeAdapter(this);
+    HomeAdapter adapter;
     List<Foodmodel> foodList = new ArrayList();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,6 +55,9 @@ public class FoodListFragment extends Fragment implements AdapterCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences sp = getContext().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+        Log.d("in admin home q", sp.getString("userType","error") );
+        adapter=new HomeAdapter(this, getContext(),sp.getString("userType","error"));
         showData();
         Log.d("size", "onViewCreated: "+foodList.size());
       /*  for(int i=0;i<5;i++) {

@@ -1,8 +1,11 @@
 package uk.ac.tees.w9544151.Adapters;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +13,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import kotlin.Unit;
 import uk.ac.tees.w9544151.Models.Foodmodel;
 import uk.ac.tees.w9544151.databinding.FoodCardBinding;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> {
     public List<Foodmodel> fooodList;
     FoodCardBinding binding;
+    Context ctx;
+    String type;
     private AdapterCallback mAdapterCallback;
 
-    public HomeAdapter(AdapterCallback callback) {
+    public HomeAdapter(AdapterCallback callback, Context context, String type) {
         this.mAdapterCallback = callback;
+        this.ctx= context;
+        this.type=type;
     }
     @NonNull
     @Override
@@ -44,6 +50,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyviewHolder holder, int position) {
         Foodmodel dm = fooodList.get(position);
+        try{
+
+
+        if (type.equals("admin") || type.equals("dboy")){
+            holder.clQuantity.setVisibility(View.GONE);
+            holder.btnbuy.setVisibility(View.GONE);
+        }
+        }
+        catch (Exception e){
+          //  SharedPreferences sp = ctx.getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+         //   Log.d("q", sp.getString("userType","error") );
+            Log.d("q", e.toString() );
+        }
         holder.tvfoodname.setText(dm.getFoodName());
         holder.tvprice.setText(dm.getFoodPrice());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -51,7 +70,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
         imageBytes = Base64.decode(dm.getFoodImage(), Base64.DEFAULT);
         Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
         holder.ivphoto.setImageBitmap(decodedImage);
-       // holder.ivphoto.setImageResource(dm.getFoodImage());
+
         holder.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +89,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
     public class MyviewHolder extends RecyclerView.ViewHolder {
         TextView tvfoodname, tvprice,btnbuy;
         ImageView ivphoto,ivdelete;
+        ConstraintLayout clQuantity;
 
         public MyviewHolder(@NonNull FoodCardBinding binding) {
             super(binding.getRoot());
@@ -78,6 +98,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
             ivdelete = binding.ivRound;
             btnbuy = binding.btnBuy;
             ivphoto = binding.ivImage;
+            clQuantity= binding.clQuantity;
         }
     }
 }

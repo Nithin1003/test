@@ -1,7 +1,9 @@
 package uk.ac.tees.w9544151.Passenger;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -11,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +26,10 @@ import uk.ac.tees.w9544151.Adapters.HomeAdapter;
 import uk.ac.tees.w9544151.Models.Foodmodel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentFoodHomeBinding;
-import uk.ac.tees.w9544151.databinding.FragmentHomeBinding;
 
 public class FoodHomeFragment extends Fragment implements AdapterCallback {
     FragmentFoodHomeBinding binding;
-    HomeAdapter adapter=new HomeAdapter(this);
+
     List<Foodmodel> foodList = new ArrayList();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,9 +41,12 @@ public class FoodHomeFragment extends Fragment implements AdapterCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences sp = getContext().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+        Log.d("in userhome q", sp.getString("userType","error") );
         for(int i=0;i<10;i++) {
             foodList.add(new Foodmodel("i","Chicken Biriyani", "260", "R.drawable.foodmenu2"));
         }
+        HomeAdapter adapter=new HomeAdapter(this, getContext(), sp.getString("userType", "error"));
         binding.rvFoodMenu.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter.fooodList=foodList;
         binding.rvFoodMenu.setAdapter(adapter);

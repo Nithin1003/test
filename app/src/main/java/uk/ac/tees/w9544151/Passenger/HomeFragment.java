@@ -2,8 +2,10 @@ package uk.ac.tees.w9544151.Passenger;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -44,7 +46,8 @@ import uk.ac.tees.w9544151.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment implements AdapterCallback {
 FragmentHomeBinding binding;
-    HomeAdapter adapter=new HomeAdapter(this);
+SharedPreferences sp;
+    HomeAdapter adapter;
     List<Foodmodel> foodList = new ArrayList();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,8 +63,11 @@ FragmentHomeBinding binding;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        sp = getContext().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+        adapter= new HomeAdapter(this,getContext(), sp.getString("userType", "error"));
         requestPermission();
         showData();
+
        /* for(int i=0;i<10;i++) {
             foodList.add(new Foodmodel("1","Chicken Fry", "200", "R.drawable.foodmenu2"));
         }*/

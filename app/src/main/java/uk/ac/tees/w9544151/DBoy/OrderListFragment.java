@@ -1,5 +1,7 @@
 package uk.ac.tees.w9544151.DBoy;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +29,7 @@ import uk.ac.tees.w9544151.databinding.FragmentOrderListBinding;
 
 public class OrderListFragment extends Fragment implements AdapterCallback {
     FragmentOrderListBinding binding;
-    OrdersAdapter adapter=new OrdersAdapter(this);
+    OrdersAdapter adapter;
     List<OrderModel> orderList = new ArrayList();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +52,10 @@ public class OrderListFragment extends Fragment implements AdapterCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SharedPreferences sp = getContext().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+        Log.d("in userhome q", sp.getString("userType","error") );
+        adapter=new OrdersAdapter(this,getContext(),sp.getString("userType","error"));
+
         for(int i=0;i<10;i++) {
             orderList.add(new OrderModel("01","Chicken Fry", "200", "2","Nithin","9747062356","16350/s6/45","400","wdw"));
         }
