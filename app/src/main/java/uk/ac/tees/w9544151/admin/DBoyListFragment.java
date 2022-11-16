@@ -10,9 +10,16 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +28,7 @@ import uk.ac.tees.w9544151.Adapters.AdapterCallback;
 import uk.ac.tees.w9544151.Adapters.DBoyAdapter;
 import uk.ac.tees.w9544151.Adapters.OrdersAdapter;
 import uk.ac.tees.w9544151.Models.DBoyModel;
+import uk.ac.tees.w9544151.Models.Foodmodel;
 import uk.ac.tees.w9544151.Models.OrderModel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentDBoyListBinding;
@@ -55,14 +63,53 @@ public class DBoyListFragment extends Fragment implements AdapterCallback {
         /*for(int i=0;i<10;i++) {
             boyList.add(new DBoyModel("B01","Rajashegar","9787890099","Kollam","nil"));
         }*/
+        showData();
         binding.rvBoys.setLayoutManager(new GridLayoutManager(requireContext(),2));
-        adapter.boyList=boyList;
-        binding.rvBoys.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void onMethodCallback() {
+
+    }
+
+    private void showData() {
+        //Log.d("@", "showData: Called")
+
+        boyList.clear();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Delivery_Boys")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.d("@", queryDocumentSnapshots + "");
+                        int i;
+                        for (i = 0; i < queryDocumentSnapshots.getDocuments().size(); i++) {
+                            /*Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getId());
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodName"));
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice"));*/
+                            boyList.add(new DBoyModel(
+                                    queryDocumentSnapshots.getDocuments().get(i).getString("boyId"),
+                                    queryDocumentSnapshots.getDocuments().get(i).getString("boyName"),
+                                    queryDocumentSnapshots.getDocuments().get(i).getString("boyMobile"),
+                                    queryDocumentSnapshots.getDocuments().get(i).getString("stop"),
+                                    queryDocumentSnapshots.getDocuments().get(i).getString("boyImage"),
+                                    "","",
+                                    queryDocumentSnapshots.getDocuments().get(i).getString("type")
+                            ));
+                        }
+                        adapter.boyList=boyList;
+                        binding.rvBoys.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 }

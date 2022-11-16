@@ -75,7 +75,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyviewHolder> 
             super(binding.getRoot());
             tvfoodname = binding.tvFoodName;
             tvprice = binding.tvFoodPrice;
-            ivdelete = binding.ivDelete;
+            ivdelete = binding.ivRound;
             btnbuy = binding.btnBuy;
             ivphoto = binding.ivImage;
         }

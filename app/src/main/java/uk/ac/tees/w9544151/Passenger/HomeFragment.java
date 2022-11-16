@@ -14,11 +14,16 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -56,13 +61,12 @@ FragmentHomeBinding binding;
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         requestPermission();
-        for(int i=0;i<10;i++) {
+        showData();
+       /* for(int i=0;i<10;i++) {
             foodList.add(new Foodmodel("1","Chicken Fry", "200", "R.drawable.foodmenu2"));
-        }
+        }*/
         binding.rvFoodMenu.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter.fooodList=foodList;
-        binding.rvFoodMenu.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
         binding.ivloginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,5 +148,39 @@ FragmentHomeBinding binding;
         Uri uri = Uri.fromParts("package", getContext().getPackageName(), null);
         intent.setData(uri);
         startActivityForResult(intent, 101);
+    }
+
+    private void showData() {
+        //Log.d("@", "showData: Called")
+
+        foodList.clear();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Food_Menu")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.d("@", queryDocumentSnapshots + "");
+                        int i;
+                        for (i = 0; i < queryDocumentSnapshots.getDocuments().size(); i++) {
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getId());
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodName"));
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice"));
+                            foodList.add(new Foodmodel(queryDocumentSnapshots.getDocuments().get(i).getId(), queryDocumentSnapshots.getDocuments().get(i).getString("foodName")
+                                    , queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice")
+                                    , queryDocumentSnapshots.getDocuments().get(i).getString("foodImage")));
+                        }
+                        adapter.fooodList=foodList;
+                        binding.rvFoodMenu.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }

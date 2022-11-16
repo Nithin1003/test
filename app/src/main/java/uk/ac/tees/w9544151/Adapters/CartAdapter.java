@@ -70,7 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.MyviewHolder> 
             itemName= binding.tvFoodName;
             price =binding.tvFoodPrice;
 
-            delete=binding.ivDelete;
+            delete=binding.ivRound;
 
         }
     }

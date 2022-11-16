@@ -33,6 +33,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Random;
 
+import uk.ac.tees.w9544151.Models.LoginModel;
 import uk.ac.tees.w9544151.Models.UserModel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentRegisterBinding;
@@ -76,8 +77,9 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
-
-
+        Random random = new Random();
+        int number = random.nextInt(999);
+        binding.tvId.setText(number+"");
 
         // initialising all views through id defined above
         emailTextView = binding.etEmail;
@@ -88,55 +90,36 @@ public class RegisterFragment extends Fragment {
         progressbar = binding.progressbar;
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                String email,name,mobile,password;
-                email=binding.etEmail.getText().toString();
-                password=binding.etPassword.getText().toString();
-                name=binding.etName.getText().toString();
-                mobile=binding.etMobile.getText().toString();
-                fireStoreDatabase : FirebaseFirestore.getInstance();
-                UserModel obj=new UserModel("user",name,mobile,email,password);
-                db=FirebaseFirestore.getInstance();
+            public void onClick(View v) {
+                String email, name, mobile, password;
+                email = binding.etEmail.getText().toString();
+                password = binding.etPassword.getText().toString();
+                name = binding.etName.getText().toString();
+                mobile = binding.etMobile.getText().toString();
+                fireStoreDatabase:
+                FirebaseFirestore.getInstance();
+                UserModel obj = new UserModel(binding.tvId.getText().toString(), "user", name, mobile, email, password);
+                db = FirebaseFirestore.getInstance();
                 db.collection("User").add(obj).
                         addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
-                                Snackbar.make(requireView(),"User added Successfully",Snackbar.LENGTH_LONG).show();
+                                binding.tvId.setText("");
+                                binding.etName.setText("");
+                                binding.etMobile.setText("");
+                                binding.etEmail.setText("");
+                                binding.etPassword.setText("");
+                                Snackbar.make(requireView(), "User added Successfully", Snackbar.LENGTH_LONG).show();
                             }
                         }).
                         addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(requireContext(),"Creation failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
                             }
                         });
-
-                //registerNewUser();
-
             }
         });
-        /*binding.btnAddUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Random random = new Random();
-                int number = random.nextInt(100000);
-                Log.d("@@", "User-"+number+"");
-                if (binding.etName.getText().toString().isEmpty())
-                    binding.etName.setError("Enter your name");
-                else if (binding.etMobile.getText().toString().isEmpty())
-                    binding.etMobile.setError("Enter mobile number");
-                else if (binding.etEmail.getText().toString().isEmpty())
-                    binding.etEmail.setError("Enter your username or password");
-                else if (binding.etPassword.getText().toString().isEmpty())
-                    binding.etPassword.setError("Enter your password");
-                else {
-                    //set the long seed value using Random constructor
-
-                    Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_loginFragment);
-                }
-            }
-        });*/
     }
 
     private void registerNewUser()

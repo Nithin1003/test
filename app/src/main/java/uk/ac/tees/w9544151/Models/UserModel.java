@@ -1,14 +1,14 @@
 package uk.ac.tees.w9544151.Models;
 
 public class UserModel {
-    String type, name, mobile, email, password;
+    String userId,type, name, mobile, email, password;
 
-    public UserModel(String type, String name, String mobile, String email, String password) {
-        this.type = type;
-        this.name = name;
-        this.mobile = mobile;
-        this.email = email;
-        this.password = password;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getType() {
@@ -48,6 +48,15 @@ public class UserModel {
     }
 
     public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserModel(String userId, String type, String name, String mobile, String email, String password) {
+        this.userId = userId;
+        this.type = type;
+        this.name = name;
+        this.mobile = mobile;
+        this.email = email;
         this.password = password;
     }
 }

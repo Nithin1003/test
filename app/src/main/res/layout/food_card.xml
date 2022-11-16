@@ -29,7 +29,7 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:src="@drawable/foodmenu2"
         android:layout_margin="4dp"
@@ -147,7 +147,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvFoodName" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivDelete"
+            android:id="@+id/ivRound"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="4dp"

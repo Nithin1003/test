@@ -1,6 +1,8 @@
 package uk.ac.tees.w9544151;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -10,22 +12,31 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import uk.ac.tees.w9544151.Models.Foodmodel;
 import uk.ac.tees.w9544151.databinding.FragmentLoginBinding;
 
 
 public class LoginFragment extends Fragment {
+    SharedPreferences sp;
+    SharedPreferences.Editor editor;
     FragmentLoginBinding binding;
-    private EditText emailTextView, passwordTextView,nameTextView,mobileTextView;
+    private EditText emailTextView, passwordTextView, nameTextView, mobileTextView;
     private AppCompatTextView Btn;
     //private ProgressBar progressbar;
-   // private FirebaseAuth mAuth;
+    // private FirebaseAuth mAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,7 +50,8 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        sp = getActivity().getSharedPreferences("logDetails", Context.MODE_PRIVATE);
+        editor = sp.edit();
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,11 +102,48 @@ public class LoginFragment extends Fragment {
             }
         });
     }
+
+    private void showData() {
+        //Log.d("@", "showData: Called")
+
+        //foodList.clear();
+        String username = binding.etUsername.getText().toString();
+        String password = binding.etPassword.getText().toString();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Login_Table").whereEqualTo("username", username).whereEqualTo("password", password)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                       /* Log.d("@", queryDocumentSnapshots + "");
+                        int i;
+                        for (i = 0; i < queryDocumentSnapshots.getDocuments().size(); i++) {
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getId());
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodName"));
+                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice"));
+                            foodList.add(new Foodmodel(queryDocumentSnapshots.getDocuments().get(i).getId(), queryDocumentSnapshots.getDocuments().get(i).getString("foodName")
+                                    , queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice")
+                                    , queryDocumentSnapshots.getDocuments().get(i).getString("foodImage")));
+                        }
+                        adapter.fooodList=foodList;
+                        binding.rvFood.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();*/
+                        editor.putString("userType", queryDocumentSnapshots.getDocuments().toString());
+                        Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_foodHomeFragment2);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
 }
 
 /**
- MD5: 61:55:AE:63:CD:D1:34:1E:C2:C3:17:6C:84:2D:D3:D9
- SHA1: DB:EB:79:F4:BB:86:51:DA:AE:01:A6:50:B9:5F:E5:2C:50:19:79:BF
- SHA-256: E2:9F:45:9C:B8:CF:86:A4:1B:38:34:23:32:82:B5:5F:D4:02:E7:97:96:66:5F:CB:B2:0D:57:D3:90:90:3C:7C
-
+ * MD5: 61:55:AE:63:CD:D1:34:1E:C2:C3:17:6C:84:2D:D3:D9
+ * SHA1: DB:EB:79:F4:BB:86:51:DA:AE:01:A6:50:B9:5F:E5:2C:50:19:79:BF
+ * SHA-256: E2:9F:45:9C:B8:CF:86:A4:1B:38:34:23:32:82:B5:5F:D4:02:E7:97:96:66:5F:CB:B2:0D:57:D3:90:90:3C:7C
  */

@@ -38,6 +38,7 @@ import java.util.Random;
 
 import uk.ac.tees.w9544151.Models.DBoyModel;
 import uk.ac.tees.w9544151.Models.Foodmodel;
+import uk.ac.tees.w9544151.Models.LoginModel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentAddBoyBinding;
 import uk.ac.tees.w9544151.databinding.FragmentAddFoodBinding;
@@ -243,15 +244,15 @@ public class AddBoyFragment extends Fragment {
         name = binding.etBoyName.getText().toString();
         point = binding.etStopName.getText().toString();
         mobile = binding.etBoyMobile.getText().toString();
-        username = binding.etBoyMobile.getText().toString();
-        password = binding.etBoyMobile.getText().toString();
+        username = binding.etUsername.getText().toString();
+        password = binding.etPassword.getText().toString();
 
         image = encodedImage;
         fireStoreDatabase: FirebaseFirestore.getInstance();
         FirebaseFirestore.getInstance();
-        DBoyModel obj = new DBoyModel(binding.btnAddBoy.getText().toString(),name,mobile,point,image,username,password,"dboy");
+        DBoyModel obj = new DBoyModel(binding.etBoyId.getText().toString(),name,mobile,point,image,username,password,"dboy");
         db = FirebaseFirestore.getInstance();
-        db.collection("Delivery_Boys").add(obj).
+        db.collection("User").add(obj).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -263,7 +264,8 @@ public class AddBoyFragment extends Fragment {
                         binding.etBoyId.setText("");
                         binding.image.setImageResource(R.drawable.add);
                         encodedImage="";
-                        Snackbar.make(requireView(), "Food added Successfully", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(requireView(), "DeliveryBoy added Successfully", Snackbar.LENGTH_LONG).show();
+
                     }
                 }).
                 addOnFailureListener(new OnFailureListener() {
@@ -272,6 +274,22 @@ public class AddBoyFragment extends Fragment {
                         Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
                     }
                 });
+        //add data to login Table
+          db.collection("Delivery_Boys").add(obj).
+                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("TAG", "onSuccess: Success");
+                        Navigation.findNavController(getView()).navigateUp();
+                    }
+                }).
+                addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("TAG", "onSuccess: Fail");
+                    }
+                });
+
 
     }
 

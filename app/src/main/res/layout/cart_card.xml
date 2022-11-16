@@ -85,19 +85,25 @@
             app:layout_constraintTop_toBottomOf="@+id/tvFoodName" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/ivDelete"
+            android:id="@+id/ivRound"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:src="@drawable/round"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/amaranth"
-            android:gravity="center"
-            android:src="@drawable/delete"
-            android:text="Buy"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:visibility="invisible"
+            android:layout_marginEnd="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivDeleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:src="@drawable/delete"
+            app:layout_constraintEnd_toEndOf="@id/ivRound"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/ivRound"
+            app:layout_constraintBottom_toBottomOf="@id/ivRound"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

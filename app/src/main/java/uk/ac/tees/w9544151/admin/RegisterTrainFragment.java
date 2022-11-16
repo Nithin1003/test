@@ -64,12 +64,12 @@ public class RegisterTrainFragment extends Fragment {
             {
                 String id,trainName,trainNumber,start,destiny;
                 trainName=binding.etTrainName.getText().toString();
-                id=binding.etTrainName.getText().toString();
+                id="T"+binding.etTrainNumber.getText().toString();
                 trainNumber=binding.etTrainNumber.getText().toString();
                 start=binding.etStart.getText().toString();
                 destiny=binding.etDestiny.getText().toString();
                 fireStoreDatabase : FirebaseFirestore.getInstance();
-                TrainModel obj=new TrainModel(id,trainName,trainNumber,start,destiny);
+                TrainModel obj=new TrainModel(id,trainNumber,trainName,start,destiny);
                 db=FirebaseFirestore.getInstance();
                 db.collection("Train").add(obj).
                         addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

@@ -254,6 +254,7 @@ public class AddFoodFragment extends Fragment {
                     public void onSuccess(DocumentReference documentReference) {
                         binding.etFoodPrice.getText().clear();
                         binding.etFoodName.getText().clear();
+                        binding.image.setImageResource(R.drawable.healthy_drink);
                         Snackbar.make(requireView(), "Food added Successfully", Snackbar.LENGTH_LONG).show();
                     }
                 }).
