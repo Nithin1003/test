@@ -105,6 +105,7 @@
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/input_holder"
                 android:textSize="16sp"
+                android:textAllCaps="false"
                 android:gravity="center_vertical"
                 android:hint="Username / Email"
                 android:paddingStart="10dp"

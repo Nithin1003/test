@@ -75,17 +75,65 @@ public class LoginFragment extends Fragment {
                     progressDoalog.setTitle("Please wait");
                     progressDoalog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressDoalog.show();
-                    if (binding.etUsername.getText().toString().equals("admin"))
+                    String username = binding.etUsername.getText().toString();
+                    String password = binding.etPassword.getText().toString();
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    if (username.equals("admin") && password.equals("admin")) {
+                        editor.putString("userType", "admin");
+                        editor.commit();
                         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_adminHomeFragment);
-                    else if (binding.etUsername.getText().toString().equals("passenger"))
-                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_foodHomeFragment2);
-                    else if (binding.etUsername.getText().toString().equals("dboy"))
-                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_DBoyHomeFragment);
+                        progressDoalog.dismiss();
+                    } else {
+                        try {
+                            db.collection("User").whereEqualTo("username", username).whereEqualTo("password", password)
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                            try {
+                                                if (queryDocumentSnapshots.getDocuments().isEmpty()){
+
+                                                        Toast.makeText(requireContext(), "invalid  credentials", Toast.LENGTH_SHORT).show();
+                                                }
+                                                else {
+                                                    Log.d("##", queryDocumentSnapshots.getDocuments().get(0).getString("type") + "");
+                                                    editor.putString("userType", queryDocumentSnapshots.getDocuments().get(0).getString("type").toString());
+                                                    editor.commit();
+                                                    Log.d("##", queryDocumentSnapshots.getDocuments().get(0).getString("type"));
+                                                    if (queryDocumentSnapshots.getDocuments().get(0).getString("type").equals("user")) {
+                                                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_foodHomeFragment2);
+                                                        progressDoalog.dismiss();
+                                                    } else if (queryDocumentSnapshots.getDocuments().get(0).getString("type").equals("dboy")) {
+                                                        Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_DBoyHomeFragment);
+                                                        progressDoalog.dismiss();
+                                                    }
+
+                                                    binding.etUsername.setText("");
+                                                    binding.etPassword.setText("");
+                                                }
+                                                progressDoalog.dismiss();
+                                            }
+                                            catch (Exception e) {
+                                                progressDoalog.dismiss();
+                                                Log.d("exception: ", e.toString());
+                                            }
 
 
-                    progressDoalog.dismiss();
-                    binding.etUsername.setText("");
-                    binding.etPassword.setText("");
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressDoalog.dismiss();
+
+                                            Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } catch (Exception e) {
+                            Log.d("exception: ", e.toString());
+                        }
+
+                    }
+
                 }
 
             }
@@ -102,45 +150,9 @@ public class LoginFragment extends Fragment {
             }
         });
     }
-
-    private void showData() {
-        //Log.d("@", "showData: Called")
-
-        //foodList.clear();
-        String username = binding.etUsername.getText().toString();
-        String password = binding.etPassword.getText().toString();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("Login_Table").whereEqualTo("username", username).whereEqualTo("password", password)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                       /* Log.d("@", queryDocumentSnapshots + "");
-                        int i;
-                        for (i = 0; i < queryDocumentSnapshots.getDocuments().size(); i++) {
-                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getId());
-                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodName"));
-                            Log.d("!", queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice"));
-                            foodList.add(new Foodmodel(queryDocumentSnapshots.getDocuments().get(i).getId(), queryDocumentSnapshots.getDocuments().get(i).getString("foodName")
-                                    , queryDocumentSnapshots.getDocuments().get(i).getString("foodPrice")
-                                    , queryDocumentSnapshots.getDocuments().get(i).getString("foodImage")));
-                        }
-                        adapter.fooodList=foodList;
-                        binding.rvFood.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();*/
-                        editor.putString("userType", queryDocumentSnapshots.getDocuments().toString());
-                        Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_foodHomeFragment2);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
 }
+
+
 
 /**
  * MD5: 61:55:AE:63:CD:D1:34:1E:C2:C3:17:6C:84:2D:D3:D9

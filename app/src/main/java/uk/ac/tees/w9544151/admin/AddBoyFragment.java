@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -92,7 +93,7 @@ public class AddBoyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Random random = new Random();
         int number = random.nextInt(100000);
-        binding.etBoyId.setText(number+"");
+        binding.etBoyId.setText("Id: "+number+"");
         binding.cameraImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +105,36 @@ public class AddBoyFragment extends Fragment {
         binding.btnAddBoy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addBoyToDataBase();
+
+                if(validate())
+                {
+                    String username;
+                    username = binding.etUsername.getText().toString();
+                    db = FirebaseFirestore.getInstance();
+                    try {
+
+                        db.collection("User").whereEqualTo("username", username).get().
+                                addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        if (queryDocumentSnapshots.getDocuments().isEmpty()) {
+                                            addBoyToDataBase(number);
+                                        } else {
+                                            Toast.makeText(requireContext(), "Please Take Another Username", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).
+                                addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        //userRegistration();
+                                        Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } catch (Exception e) {
+                        Log.d("exception", "Exception" + e.toString());
+                    }
+                }
             }
         });
 
@@ -239,7 +269,20 @@ public class AddBoyFragment extends Fragment {
 
     }
 
-    private void addBoyToDataBase() {
+    private boolean validate(){
+        if (binding.etUsername.getText().toString().isEmpty()|| binding.etPassword.getText().toString().isEmpty()||
+                binding.etBoyName.getText().toString().isEmpty() || binding.etBoyMobile.getText().toString().isEmpty() )
+        {
+            Toast.makeText(requireContext(), "All Fields are mandatory", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    private void addBoyToDataBase(int number) {
         String name,point,mobile,image,username,password;
         name = binding.etBoyName.getText().toString();
         point = binding.etStopName.getText().toString();
@@ -250,7 +293,7 @@ public class AddBoyFragment extends Fragment {
         image = encodedImage;
         fireStoreDatabase: FirebaseFirestore.getInstance();
         FirebaseFirestore.getInstance();
-        DBoyModel obj = new DBoyModel(binding.etBoyId.getText().toString(),name,mobile,point,image,username,password,"dboy");
+        DBoyModel obj = new DBoyModel(number+"",name,mobile,point,image,username,password,"dboy");
         db = FirebaseFirestore.getInstance();
         db.collection("User").add(obj).
                 addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

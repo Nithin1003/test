@@ -27,13 +27,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.auth.User;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Random;
 
-import uk.ac.tees.w9544151.Models.LoginModel;
 import uk.ac.tees.w9544151.Models.UserModel;
 import uk.ac.tees.w9544151.R;
 import uk.ac.tees.w9544151.databinding.FragmentRegisterBinding;
@@ -78,8 +77,8 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         Random random = new Random();
-        int number = random.nextInt(999);
-        binding.tvId.setText(number+"");
+        int number = random.nextInt(655999);
+        binding.tvId.setText("UserId : "+number+"");
 
         // initialising all views through id defined above
         emailTextView = binding.etEmail;
@@ -91,37 +90,83 @@ public class RegisterFragment extends Fragment {
         Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email, name, mobile, password;
-                email = binding.etEmail.getText().toString();
-                password = binding.etPassword.getText().toString();
-                name = binding.etName.getText().toString();
-                mobile = binding.etMobile.getText().toString();
-                fireStoreDatabase:
-                FirebaseFirestore.getInstance();
-                UserModel obj = new UserModel(binding.tvId.getText().toString(), "user", name, mobile, email, password);
+                if (validate())
+                {
+                    String username;
+                username = binding.etEmail.getText().toString();
                 db = FirebaseFirestore.getInstance();
-                db.collection("User").add(obj).
-                        addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                binding.tvId.setText("");
-                                binding.etName.setText("");
-                                binding.etMobile.setText("");
-                                binding.etEmail.setText("");
-                                binding.etPassword.setText("");
-                                Snackbar.make(requireView(), "User added Successfully", Snackbar.LENGTH_LONG).show();
-                            }
-                        }).
-                        addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                try {
+
+                    db.collection("User").whereEqualTo("username", username).get().
+                            addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    if (queryDocumentSnapshots.getDocuments().isEmpty()) {
+                                        userRegistration(number);
+                                    } else {
+                                        Toast.makeText(requireContext(), "Please Take Another Username", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }).
+                            addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //userRegistration();
+                                    Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } catch (Exception e) {
+                    Log.d("exception", "Exception" + e.toString());
+                }
+            }
             }
         });
     }
 
+
+    private void userRegistration(int number){
+        String username, name, mobile, password;
+        username = binding.etEmail.getText().toString();
+        password = binding.etPassword.getText().toString();
+        name = binding.etName.getText().toString();
+        mobile = binding.etMobile.getText().toString();
+        fireStoreDatabase:
+        FirebaseFirestore.getInstance();
+        UserModel obj = new UserModel(number+"", "user", name, mobile, username, password);
+        db = FirebaseFirestore.getInstance();
+        db.collection("User").add(obj).
+                addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        binding.tvId.setText("");
+                        binding.etName.setText("");
+                        binding.etMobile.setText("");
+                        binding.etEmail.setText("");
+                        binding.etPassword.setText("");
+                        Snackbar.make(requireView(), "User added Successfully", Snackbar.LENGTH_LONG).show();
+                        Navigation.findNavController(getView()).navigateUp();
+                    }
+                }).
+                addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Creation failed", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private boolean validate(){
+        if (binding.etName.getText().toString().isEmpty()|| binding.etMobile.getText().toString().isEmpty()||
+                binding.etEmail.getText().toString().isEmpty() || binding.etPassword.getText().toString().isEmpty() )
+        {
+            Toast.makeText(requireContext(), "All Fields are mandatory", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else
+        {
+         return true;
+        }
+    }
     private void registerNewUser()
     {
 
