@@ -20,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Random;
+
 import uk.ac.tees.w9544151.Models.FeedbackModel;
 import uk.ac.tees.w9544151.Models.StopModel;
 import uk.ac.tees.w9544151.R;
@@ -59,6 +61,7 @@ public class AddStopFragment extends Fragment {
         });
     }
     private void addStopToDatabase(){
+
         String id="Stop"+binding.etAddTrainNumber.getText().toString();
         StopModel obj=new StopModel(id,binding.etStopName.getText().toString(),binding.etStopNumber.getText().toString(),binding.etAddTrainNumber.getText().toString());
         db = FirebaseFirestore.getInstance();

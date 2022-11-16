@@ -101,6 +101,9 @@ public class LoginFragment extends Fragment {
                                                     editor = sp.edit();
                                                     Log.d("##", queryDocumentSnapshots.getDocuments().get(0).getString("type") + "");
                                                     editor.putString("userType", queryDocumentSnapshots.getDocuments().get(0).getString("type").toString());
+                                                    editor.putString("userName", queryDocumentSnapshots.getDocuments().get(0).getString("name").toString());
+                                                    editor.putString("userName", queryDocumentSnapshots.getDocuments().get(0).getString("mobile").toString());
+                                                    editor.putString("userName", queryDocumentSnapshots.getDocuments().get(0).getString("userId").toString());
                                                     editor.commit();
                                                     Log.d("##", queryDocumentSnapshots.getDocuments().get(0).getString("type"));
                                                     if (queryDocumentSnapshots.getDocuments().get(0).getString("type").equals("user")) {
